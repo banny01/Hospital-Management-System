@@ -18,7 +18,7 @@ PreparedStatement pst=null;
         setLocationRelativeTo(null);
     }
  private void Get_Data(){
-           String sql="select PatientID as 'Patient ID', PatientName as 'Patient Name',FatherName as 'Father Name',Address,ContactNo as 'Contact No',Email as 'Email ID',Age,Gen as 'Gender',BG as 'Blood Group',Remarks from Patientregistration";
+           String sql="select PatientID as 'Patient ID', PatientName as 'Patient Name',FatherName as 'Guardian Name',Email as 'Email ID',ContactNo as 'Contact No',Age as 'Age',Date as 'Reg Date',Remarks as 'Remarks',Gen as 'Gender',BG as 'Blood Group',Address as 'Address' from Patientregistration";
            try{
          pst=con.prepareStatement(sql);
           rs= pst.executeQuery();
@@ -82,7 +82,7 @@ PreparedStatement pst=null;
             con=Connect.ConnectDB();
             int row= jTable1.getSelectedRow();
             String table_click= jTable1.getModel().getValueAt(row, 0).toString();
-            String sql= "select * from PatientRegistration where PatientID = '" + table_click + "'";
+            String sql= "select * from patientregistration where PatientID = '" + table_click + "'";
             pst=con.prepareStatement(sql);
             rs=  pst.executeQuery();
             if(rs.next()){
@@ -110,6 +110,8 @@ PreparedStatement pst=null;
                 frm.txtAddress.setText(add15);
                 String add16=rs.getString("ContactNo");
                 frm.txtContactNo.setText(add16);
+                 String add17=rs.getString("Date");
+                frm.txtDate.setText(add17);
                 frm.btnUpdate.setEnabled(true);
                 frm.btnDelete.setEnabled(true);
                 frm.btnSave.setEnabled(false);

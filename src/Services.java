@@ -17,8 +17,9 @@ PreparedStatement pst=null;
     public Services() {
         initComponents();
          setLocationRelativeTo(null);
-         txtServiceID.setVisible(false);
+         PSID.setVisible(false);
          Get_Data1();
+         Get_Data2();
     }
  private void Get_Data1(){
       try{
@@ -32,18 +33,58 @@ PreparedStatement pst=null;
             JOptionPane.showMessageDialog(null, e);
           
 }
+      
     }
+ private void Get_Data2(){
+      try{
+        con=Connect.ConnectDB();
+        String sql="select ServiceID as 'Service ID', ServiceName as 'Service Name' from servicereg order by ServiceName";
+         
+         pst=con.prepareStatement(sql);
+         rs= pst.executeQuery();
+         tblServices.setModel(DbUtils.resultSetToTableModel(rs));
+         }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+          
+}
+      
+    }
+/* private int id(){
+     int id1 = 0;
+     try{
+            con=Connect.ConnectDB();
+            int row= tblPatient.getSelectedRow();
+            String table_click= tblPatient.getModel().getValueAt(row, 0).toString();
+            String sql= "select * from services where PSID = '" + table_click + "'";
+            pst=con.prepareStatement(sql);
+            rs=  pst.executeQuery();
+            if(rs.next()){
+
+                String id=rs.getString("PSID");
+                //txtPatientID.setText(id);
+                String add2=rs.getString("Patientname");
+                txtPatientName.setText(add2);
+                id1 = Integer.valueOf(id);
+                id1 = id1+1;
+               
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this,ex);
+        }
+     return id1;
+ }*/
  private void Reset()
 {
     txtPatientID.setText("");
-    txtServiceCharges.setText("");
+    //txtServiceCharges.setText("");
     txtPatientName.setText("");
     txtServiceDate.setText("");
     txtServiceName.setText("");
+    txtServiceID.setText("");
     btnSave.setEnabled(true);
     btnUpdate.setEnabled(false);
     btnDelete.setEnabled(false);
-    txtServiceCharges.requestDefaultFocus();
+    //txtServiceCharges.requestDefaultFocus();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,13 +100,15 @@ PreparedStatement pst=null;
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         txtServiceName = new javax.swing.JTextField();
         txtServiceDate = new javax.swing.JFormattedTextField();
         jLabel36 = new javax.swing.JLabel();
         txtPatientID = new javax.swing.JTextField();
         txtPatientName = new javax.swing.JTextField();
-        txtServiceCharges = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtServiceID = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtQty = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblPatient = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
@@ -74,12 +117,17 @@ PreparedStatement pst=null;
         btnDelete = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnGetData = new javax.swing.JButton();
-        txtServiceID = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblServices = new javax.swing.JTable();
+        PSID = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Services");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -95,21 +143,36 @@ PreparedStatement pst=null;
 
         jLabel4.setText("Patient Name");
 
-        jLabel5.setText("Service Charges");
+        txtServiceName.setEditable(false);
 
         txtServiceDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        txtServiceDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtServiceDateActionPerformed(evt);
+            }
+        });
 
         jLabel36.setText("(DD/MM/YYYY)");
 
         txtPatientID.setEditable(false);
+        txtPatientID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPatientIDActionPerformed(evt);
+            }
+        });
 
         txtPatientName.setEditable(false);
 
-        txtServiceCharges.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtServiceChargesKeyTyped(evt);
+        jLabel6.setText("Service ID");
+
+        txtServiceID.setEditable(false);
+        txtServiceID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtServiceIDActionPerformed(evt);
             }
         });
+
+        jLabel5.setText("QTY");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -122,46 +185,53 @@ PreparedStatement pst=null;
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addGap(24, 24, 24)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtServiceName)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtPatientID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                                .addComponent(txtServiceDate, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jLabel36))
-                        .addComponent(txtPatientName))
-                    .addComponent(txtServiceCharges, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addComponent(txtServiceName, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                    .addComponent(txtPatientName)
+                    .addComponent(txtPatientID)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtServiceDate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtServiceID, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtServiceName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel6)
+                    .addComponent(txtServiceID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtServiceName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
                     .addComponent(txtServiceDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
                     .addComponent(jLabel36))
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtPatientID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPatientID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtPatientName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtServiceCharges, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
         );
 
         tblPatient.setModel(new javax.swing.table.DefaultTableModel(
@@ -246,10 +316,28 @@ PreparedStatement pst=null;
                 .addComponent(btnDelete)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnUpdate)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnGetData)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        tblServices.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblServices.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblServicesMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblServices);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -263,10 +351,12 @@ PreparedStatement pst=null;
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(txtServiceID, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(42, 42, 42)
+                        .addComponent(PSID, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -275,14 +365,17 @@ PreparedStatement pst=null;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtServiceID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 52, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(PSID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -319,7 +412,8 @@ PreparedStatement pst=null;
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-     try{
+     
+        try{
       con=Connect.ConnectDB();
        if (txtServiceName.getText().equals("")) {
            JOptionPane.showMessageDialog( this, "Please enter service name","Error", JOptionPane.ERROR_MESSAGE);
@@ -333,12 +427,17 @@ PreparedStatement pst=null;
            JOptionPane.showMessageDialog( this, "Please retrieve patient id","Error", JOptionPane.ERROR_MESSAGE);
            return;
             }
-            if (txtServiceCharges.getText().equals("")) {
-           JOptionPane.showMessageDialog( this, "Please enter service charges","Error", JOptionPane.ERROR_MESSAGE);
+            if (txtServiceID.getText().equals("")) {
+           JOptionPane.showMessageDialog( this, "Please enter service id","Error", JOptionPane.ERROR_MESSAGE);
            return;
             }
-      
-       String sql= "insert into Services(ServiceName,ServiceDate,PatientID,ServiceCharges)values('"+ txtServiceName.getText() + "','"+ txtServiceDate.getText() + "','" + txtPatientID.getText() + "'," + txtServiceCharges.getText() + ")";
+            String sqlchrg = "Select ServiceCharge from servicereg where ServiceID = '"+ txtServiceID.getText()+"'";  
+            pst=con.prepareStatement(sqlchrg);
+            rs=pst.executeQuery();
+            rs.next();
+            String chrg = rs.getString("ServiceCharge");
+      Float charge = Integer.valueOf(txtQty.getText())* Float.valueOf(chrg);
+       String sql= "insert into services(ServiceID,ServiceName,ServiceDate,PatientID,QTY,Charge,Status,Work)values('"+ txtServiceID.getText() + "','"+ txtServiceName.getText() + "','" + txtServiceDate.getText() + "','" + txtPatientID.getText() + "','" + txtQty.getText() +"','"+ charge +"','Not Paid','Not Issued')";
        pst=con.prepareStatement(sql);
        pst.execute();
      
@@ -355,7 +454,7 @@ PreparedStatement pst=null;
             if (P==0)
             {
                 con=Connect.ConnectDB();
-                String sql= "delete from Services where ServiceID = " + txtServiceID.getText() + "";
+                String sql= "delete from services where PSID = " + PSID.getText() + "";
                 pst=con.prepareStatement(sql);
                 pst.execute();
                 JOptionPane.showMessageDialog(this,"Successfully deleted","Record",JOptionPane.INFORMATION_MESSAGE);
@@ -370,8 +469,13 @@ PreparedStatement pst=null;
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
       try{
       con=Connect.ConnectDB();
-          
-       String sql= "update Services set Servicename='"+ txtServiceName.getText() + "',ServiceDate='"+ txtServiceDate.getText() + "',PatientID='" + txtPatientID.getText() + "',ServiceCharges=" + txtServiceCharges.getText() + " where ServiceID=" + txtServiceID.getText() + "";
+          String sqlchrg = "Select ServiceCharge from servicereg where ServiceID = '"+ txtServiceID.getText()+"'";  
+            pst=con.prepareStatement(sqlchrg);
+            rs=pst.executeQuery();
+            rs.next();
+            String chrg = rs.getString("ServiceCharge");
+            Float charge = Integer.valueOf(txtQty.getText())* Float.valueOf(chrg);
+       String sql= "update services set ServiceID='"+ txtServiceID.getText() + "',Servicename='"+ txtServiceName.getText() + "',ServiceDate='"+ txtServiceDate.getText() + "',PatientID='" + txtPatientID.getText() + "',QTY='" + txtQty.getText() +"',Charge=" + charge + " where PSID=" + PSID.getText() + "";
        pst=con.prepareStatement(sql);
        pst.execute();
      
@@ -384,17 +488,49 @@ PreparedStatement pst=null;
 
     private void btnGetDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetDataActionPerformed
      this.hide();
-     ServicesRecord frm= new ServicesRecord();
+     PSRecord frm= new PSRecord();
      frm.setVisible(true);
     }//GEN-LAST:event_btnGetDataActionPerformed
 
-    private void txtServiceChargesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtServiceChargesKeyTyped
-       char c=evt.getKeyChar();
-      if (!(Character.isDigit(c)|| (c== KeyEvent.VK_BACK_SPACE)||(c==KeyEvent.VK_DELETE))){
-          getToolkit().beep();
-          evt.consume();
-    }          
-    }//GEN-LAST:event_txtServiceChargesKeyTyped
+    private void txtPatientIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPatientIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPatientIDActionPerformed
+
+    private void txtServiceIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtServiceIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtServiceIDActionPerformed
+
+    private void tblServicesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblServicesMouseClicked
+        // TODO add your handling code here:
+        try{
+            con=Connect.ConnectDB();
+            int row= tblServices.getSelectedRow();
+            String table_click= tblServices.getModel().getValueAt(row, 0).toString();
+            String sql= "select * from servicereg where ServiceID = '" + table_click + "'";
+            pst=con.prepareStatement(sql);
+            rs=  pst.executeQuery();
+            if(rs.next()){
+
+                String add3=rs.getString("ServiceID");
+                txtServiceID.setText(add3);
+                String add4=rs.getString("ServiceName");
+                txtServiceName.setText(add4);
+               
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this,ex);
+        }
+    }//GEN-LAST:event_tblServicesMouseClicked
+
+    private void txtServiceDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtServiceDateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtServiceDateActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        /*MainMenuUser frm = new MainMenuUser();
+        frm.setVisible(true);*/
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -409,6 +545,7 @@ PreparedStatement pst=null;
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JTextField PSID;
     public javax.swing.JButton btnDelete;
     private javax.swing.JButton btnGetData;
     private javax.swing.JButton btnNew;
@@ -420,13 +557,16 @@ PreparedStatement pst=null;
     public javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable tblPatient;
+    private javax.swing.JTable tblServices;
     public javax.swing.JTextField txtPatientID;
     public javax.swing.JTextField txtPatientName;
-    public javax.swing.JTextField txtServiceCharges;
+    public javax.swing.JTextField txtQty;
     public javax.swing.JFormattedTextField txtServiceDate;
     public javax.swing.JTextField txtServiceID;
     public javax.swing.JTextField txtServiceName;

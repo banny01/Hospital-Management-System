@@ -18,7 +18,7 @@ PreparedStatement pst=null;
         setLocationRelativeTo(null);
     }
  private void Get_Data(){
-       String sql="select ServiceID as 'Service ID', ServiceName as 'Service Name',ServiceDate as 'Service Date',PatientRegistration.PatientID as 'Patient ID',PatientName as 'Patient Name',ServiceCharges as 'Service Charges' from PatientRegistration,Services where Services.PatientID=PatientRegistration.PatientID order by PatientName";
+       String sql="select ServiceID as 'Service ID', ServiceName as 'Service Name',ServiceCharge as 'Service Charge (Rs.)' from servicereg";
        try{         pst=con.prepareStatement(sql);
           rs= pst.executeQuery();
          jTable1.setModel(DbUtils.resultSetToTableModel(rs));
@@ -81,27 +81,20 @@ PreparedStatement pst=null;
             con=Connect.ConnectDB();
             int row= jTable1.getSelectedRow();
             String table_click= jTable1.getModel().getValueAt(row, 0).toString();
-           String sql=" Select * from PatientRegistration,Services where Services.PatientID=PatientRegistration.PatientID and ServiceID=" + table_click  + "";
+           String sql=" Select * from servicereg where ServiceID=" + table_click  + "";
             pst=con.prepareStatement(sql);
             rs=  pst.executeQuery();
             if(rs.next()){
                 this.hide();
-                Services frm = new Services();
+                ServiceReg frm = new ServiceReg();
                 frm.setVisible(true);
-                String add1=rs.getString("ServiceName");
-                frm.txtServiceName.setText(add1);
-                String add2=rs.getString("ServiceDate");
-                frm.txtServiceDate.setText(add2);
-                String add3=rs.getString("PatientName");
-                frm.txtPatientName.setText(add3);
-                String add4=rs.getString("PatientID");
-                frm.txtPatientID.setText(add4);
-                int add5 = rs.getInt("ServiceID");
-                String add6= Integer.toString(add5);
-                frm.txtServiceID.setText(add6);
-                int add7 = rs.getInt("ServiceCharges");
-                String add8= Integer.toString(add7);
-                frm.txtServiceCharges.setText(add8);
+                String add1=rs.getString("ServiceID");
+                frm.txtServiceID.setText(add1);
+                String add2=rs.getString("ServiceName");
+                frm.txtServiceName.setText(add2);
+                String add3=rs.getString("ServiceCharge");
+                frm.txtServiceCharge.setText(add3);
+                
                 frm.btnSave.setEnabled(false);
                 frm.btnDelete.setEnabled(true);
                 frm.btnUpdate.setEnabled(true);
@@ -114,7 +107,7 @@ PreparedStatement pst=null;
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
    this.hide();
-   Services frm = new Services();
+   ServiceReg frm = new ServiceReg();
    frm.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
