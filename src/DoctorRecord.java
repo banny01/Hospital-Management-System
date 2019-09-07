@@ -9,6 +9,7 @@ import net.proteanit.sql.DbUtils;
 public class DoctorRecord extends javax.swing.JFrame {
 Connection con=null;
 ResultSet rs=null;
+ResultSet rs2=null;
 PreparedStatement pst=null;
     /**
      * Creates new form DoctorRecord
@@ -87,6 +88,19 @@ PreparedStatement pst=null;
             String sql= "select * from Doctor where DoctorID = '" + table_click + "'";
             pst=con.prepareStatement(sql);
             rs=  pst.executeQuery();
+            int row2= jTable1.getSelectedRow();
+            //String table_click2= jTable1.getModel().getValueAt(row2, 1).toString();
+            /*String sql2= "select * from Users where username= '" + table_click + "'";
+            pst=con.prepareStatement(sql2);
+            rs2=  pst.executeQuery();
+            if(rs2.next()){
+                this.hide();
+                Doctor frm2 = new Doctor();
+                String add1=rs2.getString("username");
+                /*frm2.txtUserName.setText(add1);
+                String add2=rs2.getString("user_password");
+                frm2.Password.setText(add2);
+            }*/
             if(rs.next()){
                 this.hide();
                 Doctor frm = new Doctor();
@@ -112,6 +126,9 @@ PreparedStatement pst=null;
                 String add15=rs.getString("Address");
                 frm.txtAddress.setText(add15);
                 String add16=rs.getString("ContactNo");
+                
+                String add17=rs.getString("username");
+                frm.txtUserName.setText(add17);
                 frm.txtContactNo.setText(add16);
                 frm.btnUpdate.setEnabled(true);
                 frm.btnDelete.setEnabled(true);

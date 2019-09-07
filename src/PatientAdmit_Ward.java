@@ -17,32 +17,40 @@ PreparedStatement pst=null;
     public PatientAdmit_Ward() {
         initComponents();
         setLocationRelativeTo(null);
-        fillcombo();
         cmbWardName.setSelectedIndex(-1);
+        fillcombo();
+        
         cmbWardName1.setVisible(false);
         txtAdmitID.setVisible(false);
          Get_Data1();
          GetRecord();
+         
     }
-private void fillcombo()
-{
+private void fillcombo(){
+String s ="";
      try{
       
    con=Connect.ConnectDB();
-      String sql= "select distinct Wardname from Ward order by Wardname";
+      String sql= "select distinct WardType from room order by WardType";
       pst=con.prepareStatement(sql);
       rs=pst.executeQuery();
       while(rs.next()){
-          String add=rs.getString("Wardname");
+          String add=rs.getString("WardType");
           cmbWardName.addItem(add);
-          
+          //System.out.println(add);
+         s = s+add+"\n";
+         cmbWardName.setSelectedIndex(-1);
          }
-        }catch(HeadlessException | SQLException ex){
+      //cmbWardName.(s);
+      System.out.println(s);
+      
+        }
+     catch(HeadlessException | SQLException ex){
            JOptionPane.showMessageDialog(this,ex); 
         }
 }
  private void GetRecord(){
-        String sql="select DoctorID as 'Doctor ID', DoctorName as 'Doctor Name' from Doctor order by DoctorName";
+        String sql="select DoctorID as 'Doctor ID', Doctorname as 'doctor Name', Specialization as 'Specialization' from Doctor order by Doctorname";
           try{
               con=Connect.ConnectDB();
          pst=con.prepareStatement(sql);
@@ -54,7 +62,7 @@ private void fillcombo()
 }
     }
   private void Get_Data1(){
-        String sql="select PatientID as 'Patient ID', PatientName as 'Patient Name',Gen as 'Gender',BG as 'Blood Group' from Patientregistration order by PatientName";
+        String sql="select PatientID as 'Patient ID', Patientname as 'Patient Name',Gen as 'Gender',BG as 'Blood Group' from patientregistration order by PatientName";
           try{
          con=Connect.ConnectDB();
          pst=con.prepareStatement(sql);
@@ -77,9 +85,7 @@ private void fillcombo()
         jLabel10 = new javax.swing.JLabel();
         PatientID = new javax.swing.JTextField();
         txtPatientName = new javax.swing.JTextField();
-        txtAdmitDate = new javax.swing.JFormattedTextField();
         jLabel11 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
         txtGender = new javax.swing.JTextField();
         txtBloodGroup = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -94,8 +100,6 @@ private void fillcombo()
         txtRemarks = new javax.swing.JTextArea();
         cmbWardName = new javax.swing.JComboBox();
         cmbWardName1 = new javax.swing.JComboBox();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
@@ -105,52 +109,124 @@ private void fillcombo()
         btnUpdate = new javax.swing.JButton();
         btnGetData = new javax.swing.JButton();
         txtAdmitID = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        cmbWardNo = new javax.swing.JComboBox<>();
+        txtMM = new javax.swing.JTextField();
+        txtYYYY = new javax.swing.JTextField();
+        txtDD = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Admit Patient");
         setResizable(false);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Patient Admit Info"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Patient Admit Info", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
+        jPanel1.setLayout(null);
 
+        jLabel1.setBackground(new java.awt.Color(0, 0, 204));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 0, 204));
         jLabel1.setText("Patient ID");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(39, 30, 100, 17);
 
+        jLabel2.setBackground(new java.awt.Color(0, 0, 204));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 0, 204));
         jLabel2.setText("Patient Name");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(39, 69, 93, 17);
 
+        jLabel9.setBackground(new java.awt.Color(0, 0, 204));
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(51, 0, 204));
         jLabel9.setText("Blood Group");
+        jPanel1.add(jLabel9);
+        jLabel9.setBounds(39, 145, 87, 17);
 
+        jLabel10.setBackground(new java.awt.Color(0, 0, 204));
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(51, 0, 204));
         jLabel10.setText("Remarks");
+        jPanel1.add(jLabel10);
+        jLabel10.setBounds(40, 410, 60, 17);
 
         PatientID.setEditable(false);
+        jPanel1.add(PatientID);
+        PatientID.setBounds(165, 27, 89, 20);
 
         txtPatientName.setEditable(false);
+        jPanel1.add(txtPatientName);
+        txtPatientName.setBounds(165, 66, 193, 20);
 
-        txtAdmitDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
-
+        jLabel11.setBackground(new java.awt.Color(0, 0, 204));
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(51, 0, 204));
         jLabel11.setText("Gender");
-
-        jLabel22.setText("(DD/MM/YYYY)");
+        jPanel1.add(jLabel11);
+        jLabel11.setBounds(39, 107, 50, 17);
 
         txtGender.setEditable(false);
+        jPanel1.add(txtGender);
+        txtGender.setBounds(165, 104, 194, 20);
 
         txtBloodGroup.setEditable(false);
+        jPanel1.add(txtBloodGroup);
+        txtBloodGroup.setBounds(165, 142, 194, 20);
 
+        jLabel12.setBackground(new java.awt.Color(0, 0, 204));
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(51, 0, 204));
         jLabel12.setText("Disease");
+        jPanel1.add(jLabel12);
+        jLabel12.setBounds(39, 180, 51, 17);
 
+        jLabel13.setBackground(new java.awt.Color(0, 0, 204));
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(51, 0, 204));
         jLabel13.setText("Admit Date");
+        jPanel1.add(jLabel13);
+        jLabel13.setBounds(40, 230, 77, 17);
 
+        jLabel14.setBackground(new java.awt.Color(0, 0, 204));
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(51, 0, 204));
         jLabel14.setText("Ward Name");
+        jPanel1.add(jLabel14);
+        jLabel14.setBounds(40, 280, 81, 17);
 
+        jLabel16.setBackground(new java.awt.Color(0, 0, 204));
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(51, 0, 204));
         jLabel16.setText("Doctor ID");
+        jPanel1.add(jLabel16);
+        jLabel16.setBounds(40, 320, 68, 17);
 
+        jLabel17.setBackground(new java.awt.Color(0, 0, 204));
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(51, 0, 204));
         jLabel17.setText("Doctor Name");
+        jPanel1.add(jLabel17);
+        jLabel17.setBounds(40, 360, 91, 17);
+        jPanel1.add(txtDisease);
+        txtDisease.setBounds(159, 180, 220, 20);
 
         txtDoctorID.setEditable(false);
+        jPanel1.add(txtDoctorID);
+        txtDoctorID.setBounds(160, 320, 75, 21);
 
         txtDoctorName.setEditable(false);
+        jPanel1.add(txtDoctorName);
+        txtDoctorName.setBounds(160, 360, 194, 20);
 
         txtRemarks.setColumns(20);
         txtRemarks.setRows(5);
         jScrollPane1.setViewportView(txtRemarks);
+
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(160, 410, 166, 104);
 
         cmbWardName.setEditable(true);
         cmbWardName.addItemListener(new java.awt.event.ItemListener() {
@@ -158,116 +234,41 @@ private void fillcombo()
                 cmbWardNameItemStateChanged(evt);
             }
         });
+        cmbWardName.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+                cmbWardNamePopupMenuCanceled(evt);
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
+        cmbWardName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmbWardNameMouseClicked(evt);
+            }
+        });
         cmbWardName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbWardNameActionPerformed(evt);
             }
         });
-
-        cmbWardName1.setEditable(true);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel10))
-                .addGap(62, 62, 62)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtAdmitDate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel22))
-                    .addComponent(PatientID, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPatientName, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBloodGroup)
-                    .addComponent(txtGender)
-                    .addComponent(txtDisease)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cmbWardName, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbWardName1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtDoctorName)
-                    .addComponent(txtDoctorID, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(PatientID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtPatientName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(txtGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtBloodGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtDisease, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(txtAdmitDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(cmbWardName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbWardName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(txtDoctorID, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(txtDoctorName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+        cmbWardName.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                cmbWardNamePropertyChange(evt);
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        cmbWardName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cmbWardNameKeyPressed(evt);
+            }
+        });
+        jPanel1.add(cmbWardName);
+        cmbWardName.setBounds(160, 280, 89, 20);
+
+        cmbWardName1.setEditable(true);
+        jPanel1.add(cmbWardName1);
+        cmbWardName1.setBounds(270, 320, 90, 20);
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -287,8 +288,13 @@ private void fillcombo()
         });
         jScrollPane3.setViewportView(jTable2);
 
+        jPanel1.add(jScrollPane3);
+        jScrollPane3.setBounds(540, 30, 260, 523);
+
+        jPanel2.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.foreground"));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
+        btnNew.setBackground(javax.swing.UIManager.getDefaults().getColor("RadioButtonMenuItem.selectionBackground"));
         btnNew.setText("New");
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -332,73 +338,145 @@ private void fillcombo()
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnGetData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnGetData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addComponent(btnNew)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnSave)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnDelete)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnUpdate)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGetData)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
 
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(410, 50, 110, 220);
+
         txtAdmitID.setEditable(false);
+        jPanel1.add(txtAdmitID);
+        txtAdmitID.setBounds(430, 490, 90, 20);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+
+        jPanel1.add(jScrollPane2);
+        jScrollPane2.setBounds(805, 30, 390, 523);
+
+        cmbWardNo.setEditable(true);
+        cmbWardNo.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                cmbWardNoPopupMenuWillBecomeVisible(evt);
+            }
+        });
+        cmbWardNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmbWardNoMouseClicked(evt);
+            }
+        });
+        cmbWardNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbWardNoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cmbWardNo);
+        cmbWardNo.setBounds(310, 280, 60, 20);
+
+        txtMM.setText("MM");
+        jPanel1.add(txtMM);
+        txtMM.setBounds(210, 230, 40, 20);
+
+        txtYYYY.setText("YYYY");
+        jPanel1.add(txtYYYY);
+        txtYYYY.setBounds(260, 230, 70, 20);
+
+        txtDD.setText("DD");
+        jPanel1.add(txtDD);
+        txtDD.setBounds(160, 230, 40, 20);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 0, 204));
+        jLabel4.setText("No");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(280, 280, 30, 17);
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/admiss.png"))); // NOI18N
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(10, 20, 1330, 580);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtAdmitID, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(17, 17, 17)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtAdmitID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmbWardNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbWardNameActionPerformed
-  
+/*String sql1="Select No from Room where WardType= '" + cmbWardName.getSelectedItem() + "'";
+        cmbWardNo.setToolTipText(sql1);  */
+        //con=Connect.ConnectDB();
+        //String s1="Select No from Room where WardType= '" + cmbWardName.getSelectedItem() + "'";
+       /* cmbWardNo.removeAllItems();
+        
+        try{
+      
+    con=Connect.ConnectDB();
+    String sq2= "select No from room where WardType='"+cmbWardName.getSelectedItem() +"' order by No";
+    pst=con.prepareStatement(sq2);
+    rs=pst.executeQuery();
+      while(rs.next()){
+          String add1=rs.getString("No");
+          cmbWardNo.addItem(add1);
+          
+         }
+        }catch(HeadlessException | SQLException ex){
+           JOptionPane.showMessageDialog(this,ex); 
+        }*/
     }//GEN-LAST:event_cmbWardNameActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -406,7 +484,7 @@ private void fillcombo()
             con=Connect.ConnectDB();
             int row= jTable1.getSelectedRow();
             String table_click= jTable1.getModel().getValueAt(row, 0).toString();
-            String sql= "select * from PatientRegistration where PatientID = '" + table_click + "'";
+            String sql= "select * from patientregistration where PatientID = '" + table_click + "'";
             pst=con.prepareStatement(sql);
             rs=  pst.executeQuery();
             if(rs.next()){
@@ -473,7 +551,7 @@ private void fillcombo()
                 JOptionPane.showMessageDialog( this, "Please enter disease","Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-             if (txtAdmitDate.getText().equals("")) {
+             if (txtDD.getText().equals("")||txtMM.getText().equals("")||txtYYYY.getText().equals("")) {
                 JOptionPane.showMessageDialog( this, "Please enter admit date","Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -494,7 +572,7 @@ private void fillcombo()
             }
              Statement stmt1;
        stmt1= con.createStatement();
-       String sql2="Select Wardname from Ward where Wardname= '" + cmbWardName.getSelectedItem()+ "' and NoOfbeds<=0";
+       String sql2="Select WardType from room where WardType= '" + cmbWardName.getSelectedItem()+ "' and NoofBeds<=0";
       rs=stmt1.executeQuery(sql2);
       if(rs.next()){
         JOptionPane.showMessageDialog( this, "Beds are not available","Error", JOptionPane.ERROR_MESSAGE);
@@ -504,18 +582,18 @@ private void fillcombo()
       }
        Statement stmt;
        stmt= con.createStatement();
-       String sql1="Select PatientID,AdmitDate from AdmitPatient_Room where PatientID= '" + PatientID.getText() + "' and AdmitDate='" + txtAdmitDate + "'";
+       String sql1="Select PatientID,AdmitDate from admitpatient_ward where PatientID= '" + PatientID.getText() + "' and AdmitDate='" + txtDD + "'";
       rs=stmt.executeQuery(sql1);
       if(rs.next()){
         JOptionPane.showMessageDialog( this, "Record already exists","Error", JOptionPane.ERROR_MESSAGE);
         return;
       }
-     
-            String sql= "insert into AdmitPatient_Ward(PatientID,Disease,AdmitDate,Wardname,DoctorID,AP_Remarks)values('"+ PatientID.getText() + "','"+ txtDisease.getText() + "','"+ txtAdmitDate.getText() + "','"+ cmbWardName.getSelectedItem()+ "','" + txtDoctorID.getText() + "','"+ txtRemarks.getText() + "')";
+        String Date = ""+txtDD.getText()+"/"+txtMM.getText()+"/"+txtYYYY.getText();
+            String sql= "insert into admitPatient_Ward(PatientID,Disease,AdmitDate,WardType,DoctorID,AP_Remarks,DD,MM,YYYY)values('"+ PatientID.getText() + "','"+ txtDisease.getText() + "','"+ Date + "','"+ cmbWardName.getSelectedItem()+ "','" + txtDoctorID.getText() + "','"+ txtRemarks.getText() + "','"+ txtDD.getText() + "','"+ txtMM.getText() + "','"+ txtYYYY.getText() + "')";
 
             pst=con.prepareStatement(sql);
             pst.execute();
-            String sql3= "update Ward set NoOfBeds=NoOfBeds - 1 where Wardname='" + cmbWardName.getSelectedItem() + "'";
+            String sql3= "update room set NoOfBeds=NoOfBeds - 1 where WardType='" + cmbWardName.getSelectedItem() + "'";
             pst=con.prepareStatement(sql3);
             pst.execute();
             JOptionPane.showMessageDialog(this,"Successfully admitted","Patient",JOptionPane.INFORMATION_MESSAGE);
@@ -527,7 +605,22 @@ private void fillcombo()
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void cmbWardNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbWardNameItemStateChanged
-     
+/*cmbWardNo.removeAllItems();
+        
+        try{
+      
+    con=Connect.ConnectDB();
+    String sq2= "select No from room where WardType='"+cmbWardName.getSelectedItem() +"' order by No";
+    pst=con.prepareStatement(sq2);
+    rs=pst.executeQuery();
+      while(rs.next()){
+          String add1=rs.getString("No");
+          cmbWardNo.addItem(add1);
+          
+         }
+        }catch(HeadlessException | SQLException ex){
+           JOptionPane.showMessageDialog(this,ex); 
+        }*/
     }//GEN-LAST:event_cmbWardNameItemStateChanged
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -536,7 +629,7 @@ private void fillcombo()
             if (P==0)
             {
                 con=Connect.ConnectDB();
-                String sql= "delete from AdmitPatient_Ward where AdmitID = " + txtAdmitID.getText() + "";
+                String sql= "delete from admitpatient_ward where AdmitID = " + txtAdmitID.getText() + "";
                 pst=con.prepareStatement(sql);
                 pst.execute();
                 JOptionPane.showMessageDialog(this,"Successfully deleted","Record",JOptionPane.INFORMATION_MESSAGE);
@@ -565,7 +658,7 @@ private void fillcombo()
        String t= cmbWardName1.getSelectedItem().toString();
        if (!t.equals(s))
        {
-       String sql2="Select Wardname from Ward where Wardname= '" + cmbWardName.getSelectedItem()+ "' and NoOfbeds<=0";
+       String sql2="Select WardType from room where WardType= '" + cmbWardName.getSelectedItem()+ "' and NoOfbeds<=0";
        rs=stmt1.executeQuery(sql2);
        if(rs.next()){
         JOptionPane.showMessageDialog( this, "beds are not available","Error", JOptionPane.ERROR_MESSAGE);
@@ -574,19 +667,19 @@ private void fillcombo()
        return;
       }
       }
-      
-            String sql= " update AdmitPatient_Ward set PatientID='"+ PatientID.getText() + "',Disease='"+ txtDisease.getText() + "',AdmitDate='"+ txtAdmitDate.getText() + "',Wardname='"+ cmbWardName.getSelectedItem()+ "',DoctorID='" + txtDoctorID.getText() + "',AP_Remarks='"+ txtRemarks.getText() + "' where AdmitID= " + txtAdmitID.getText() + "";
+      String Date = txtDD.getText()+"/"+txtMM.getText()+"/"+txtYYYY;
+            String sql= " update admitpatient_ward set PatientID='"+ PatientID.getText() + "',Disease='"+ txtDisease.getText() + "',AdmitDate='"+ Date + "',Wardname='"+ cmbWardName.getSelectedItem()+ "',DoctorID='" + txtDoctorID.getText() + "',AP_Remarks='"+ txtRemarks.getText() + "',DD='"+ txtDD.getText() + "',MM='"+ txtMM.getText() + "',YYYY='"+ txtYYYY.getText() + "' where AdmitID= " + txtAdmitID.getText() + "";
             pst=con.prepareStatement(sql);
             pst.execute();
            if (!t.equals(s))
        {
-             String sql3= "update Ward set NoOfBeds=NoOfBeds - 1 where Wardname='" + cmbWardName.getSelectedItem() + "'";
+             String sql3= "update room set NoOfBeds=NoOfBeds - 1 where Wardname='" + cmbWardName.getSelectedItem() + "'";
            pst=con.prepareStatement(sql3);
             pst.execute();
        }
             if (!t.equals(s))
        {
-             String sql4= "update Ward set NoOfBeds=NoOfBeds + 1 where Wardname='" + cmbWardName1.getSelectedItem() + "'";
+             String sql4= "update room set NoOfBeds=NoOfBeds + 1 where Wardname='" + cmbWardName1.getSelectedItem() + "'";
              pst=con.prepareStatement(sql4);
             pst.execute();
        }
@@ -597,6 +690,53 @@ private void fillcombo()
             JOptionPane.showMessageDialog(this,ex);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void cmbWardNamePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmbWardNamePropertyChange
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cmbWardNamePropertyChange
+
+    private void cmbWardNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbWardNoMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cmbWardNoMouseClicked
+
+    private void cmbWardNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbWardNameMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cmbWardNameMouseClicked
+
+    private void cmbWardNamePopupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmbWardNamePopupMenuCanceled
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cmbWardNamePopupMenuCanceled
+
+    private void cmbWardNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbWardNameKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbWardNameKeyPressed
+
+    private void cmbWardNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbWardNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbWardNoActionPerformed
+
+    private void cmbWardNoPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmbWardNoPopupMenuWillBecomeVisible
+cmbWardNo.removeAllItems();
+        
+        try{
+      
+    con=Connect.ConnectDB();
+    String sq2= "select No from room where WardType='"+cmbWardName.getSelectedItem() +"' order by No";
+    pst=con.prepareStatement(sq2);
+    rs=pst.executeQuery();
+      while(rs.next()){
+          String add1=rs.getString("No");
+          cmbWardNo.addItem(add1);
+          
+         }
+        }catch(HeadlessException | SQLException ex){
+           JOptionPane.showMessageDialog(this,ex); 
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbWardNoPopupMenuWillBecomeVisible
 private void Reset()
 {
     txtDoctorID.setText("");
@@ -606,8 +746,9 @@ private void Reset()
     txtBloodGroup.setText("");
     txtGender.setText("");
     txtDisease.setText("");
-    txtAdmitDate.setText("");
-    
+    txtDD.setText("DD");
+    txtMM.setText("MM");
+    txtYYYY.setText("YYYY");
     txtRemarks.setText("");
     cmbWardName.setSelectedIndex(-1);
     btnSave.setEnabled(true);
@@ -621,7 +762,7 @@ private void Reset()
        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PatientAdmit_Room().setVisible(true);
+                new PatientAdmit_Ward().setVisible(true);
             }
         });
     }
@@ -634,6 +775,7 @@ private void Reset()
     public javax.swing.JButton btnUpdate;
     public javax.swing.JComboBox cmbWardName;
     public javax.swing.JComboBox cmbWardName1;
+    private javax.swing.JComboBox<String> cmbWardNo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -643,7 +785,8 @@ private void Reset()
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
-    public javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -652,14 +795,16 @@ private void Reset()
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    public javax.swing.JFormattedTextField txtAdmitDate;
     public javax.swing.JTextField txtAdmitID;
     public javax.swing.JTextField txtBloodGroup;
+    public javax.swing.JTextField txtDD;
     public javax.swing.JTextField txtDisease;
     public javax.swing.JTextField txtDoctorID;
     public javax.swing.JTextField txtDoctorName;
     public javax.swing.JTextField txtGender;
+    public javax.swing.JTextField txtMM;
     public javax.swing.JTextField txtPatientName;
     public javax.swing.JTextArea txtRemarks;
+    public javax.swing.JTextField txtYYYY;
     // End of variables declaration//GEN-END:variables
 }

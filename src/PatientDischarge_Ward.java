@@ -20,6 +20,15 @@ PreparedStatement pst=null;
         setLocationRelativeTo(null);
         txtDischargeID.setVisible(false);
         txtAdmitID.setVisible(false);
+        txtAddress.setVisible(false);
+        txtAge.setVisible(false);
+        txtContact.setVisible(false);
+        txtEmail.setVisible(false);
+        btnDelete.setVisible(false);
+        btnUpdate.setVisible(false);
+        txtYYYY1.setVisible(false);
+        txtMM1.setVisible(false);
+        txtDD1.setVisible(false);
     }
 private void Reset()
 {
@@ -33,7 +42,9 @@ private void Reset()
     txtAdmitDate.setText("");
     txtWardname.setText("");
     txtRemarks.setText("");
-    txtDischargeDate.setText("");
+    txtDD.setText("DD");
+    txtMM.setText("MM");
+    txtYYYY.setText("YYYY");
     btnSave.setEnabled(true);
     btnUpdate.setEnabled(false);
     btnDelete.setEnabled(false);
@@ -67,9 +78,10 @@ private void Reset()
         txtRemarks = new javax.swing.JTextArea();
         txtWardname = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtDischargeDate = new javax.swing.JFormattedTextField();
-        jLabel36 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        txtDD = new javax.swing.JTextField();
+        txtMM = new javax.swing.JTextField();
+        txtYYYY = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         btnNew = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
@@ -78,6 +90,13 @@ private void Reset()
         btnGetData = new javax.swing.JButton();
         txtAdmitID = new javax.swing.JTextField();
         txtDischargeID = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        txtContact = new javax.swing.JTextField();
+        txtAge = new javax.swing.JTextField();
+        txtAddress = new javax.swing.JTextField();
+        txtDD1 = new javax.swing.JTextField();
+        txtMM1 = new javax.swing.JTextField();
+        txtYYYY1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Discharge Patient");
@@ -132,10 +151,6 @@ private void Reset()
 
         jLabel7.setText("Discharge Date");
 
-        txtDischargeDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
-
-        jLabel36.setText("(DD/MM/YYYY)");
-
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jButton1.setText(">");
         jButton1.setPreferredSize(new java.awt.Dimension(41, 21));
@@ -144,6 +159,12 @@ private void Reset()
                 jButton1ActionPerformed(evt);
             }
         });
+
+        txtDD.setText("DD");
+
+        txtMM.setText("MM");
+
+        txtYYYY.setText("YYYY");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -183,9 +204,11 @@ private void Reset()
                         .addComponent(txtDoctorID, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtWardname, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(txtDischargeDate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtDD, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel36)))
+                        .addComponent(txtMM, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtYYYY, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -232,9 +255,10 @@ private void Reset()
                     .addComponent(txtDoctorName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDischargeDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel36)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(txtDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtYYYY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -318,15 +342,28 @@ private void Reset()
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtDischargeID)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtAdmitID, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 16, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(txtDischargeID)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtAdmitID, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 16, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                            .addComponent(txtContact)
+                            .addComponent(txtAge)
+                            .addComponent(txtAddress)
+                            .addComponent(txtDD1)
+                            .addComponent(txtMM1)
+                            .addComponent(txtYYYY1))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,6 +375,20 @@ private void Reset()
                 .addGap(40, 40, 40)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtYYYY1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtMM1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtDD1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(txtDischargeID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtAdmitID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -349,7 +400,7 @@ private void Reset()
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.hide();
-        PatientAdmit_WardRecord1 frm = new PatientAdmit_WardRecord1();
+        PatientAdmit_WardRecord_1 frm = new PatientAdmit_WardRecord_1();
         frm.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -392,7 +443,7 @@ private void Reset()
                 return;
 
             }
-             if (txtDischargeDate.getText().equals("")) {
+             if (txtDD.getText().equals("")||txtMM.getText().equals("")||txtYYYY.getText().equals("")) {
                 JOptionPane.showMessageDialog( this, "Please enter discharge date","Error", JOptionPane.ERROR_MESSAGE);
                 return;
 
@@ -405,14 +456,20 @@ private void Reset()
         JOptionPane.showMessageDialog( this, "Record already exists","Error", JOptionPane.ERROR_MESSAGE);
         return;
       }
-     
-            String sql= "insert into DischargePatient_Ward(AdmitID,DischargeDate,DP_Remarks)values("+ txtAdmitID.getText() + ",'"+ txtDischargeDate.getText() + "','"+ txtRemarks.getText() + "')";
+     String Date = ""+txtDD.getText()+"/"+txtMM.getText()+"/"+txtYYYY.getText();
+            String sql= "insert into DischargePatient_Ward(PatientID,Patientname,AdmitID,DischargeDate,DP_Remarks,Disease,Email,ContactNo,Age,DoctorID,AdmitDate,WardType,Gen,BG,Address,DD,MM,YYYY,DD1,MM1,YYYY1,Status)values("+ PatientID.getText() + ",'"+ txtPatientName.getText() + "','"+ txtAdmitID.getText() + "','"+ Date + "','"+ txtRemarks.getText() + "','"+ txtDisease.getText() + "','"+ txtEmail.getText() + "','"+ txtContact.getText() + "','"+ txtAge.getText() + "','"+ txtDoctorID.getText() + "','"+ txtAdmitDate.getText() + "','"+ txtWardname.getText() + "','"+ txtGender.getText() + "','"+ txtBloodGroup.getText() + "','"+ txtAddress.getText() + "','"+ txtDD.getText() + "','"+ txtMM.getText() + "','"+ txtYYYY.getText() + "','"+ txtDD1.getText() + "','"+ txtMM1.getText() + "','"+ txtYYYY1.getText() + "','Not Paid')";
 
             pst=con.prepareStatement(sql);
             pst.execute();
-            String sql3= "update Ward set NoOfBeds=NoOfBeds+1 where Wardname='" + txtWardname.getText() + "'";
+            String sql3= "update room set NoOfBeds=NoOfBeds+1 where WardType='" + txtWardname.getText() + "'";
             pst=con.prepareStatement(sql3);
             pst.execute();
+            String sql4= "delete from AdmitPatient_Ward where AdmitID = " + txtAdmitID.getText() + "";
+                pst=con.prepareStatement(sql4);
+                pst.execute();
+            String sql5= "delete from patientregistration where PatientID = " + PatientID.getText() + "";
+                pst=con.prepareStatement(sql5);
+                pst.execute();
             JOptionPane.showMessageDialog(this,"Successfully discharged","Patient",JOptionPane.INFORMATION_MESSAGE);
             btnSave.setEnabled(false);
 
@@ -446,8 +503,8 @@ private void Reset()
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
     try{
             con=Connect.ConnectDB();
-       
-            String sql= "update DischargePatient_Ward set AdmitID="+ txtAdmitID.getText() + ",DischargeDate='"+ txtDischargeDate.getText() + "',DP_Remarks='"+ txtRemarks.getText() + "' where ID= " + txtDischargeID.getText() + "";
+       String Date = ""+txtDD.getText()+"/"+txtMM.getText()+"/"+txtYYYY.getText();
+            String sql= "update DischargePatient_Ward set AdmitID="+ txtAdmitID.getText() + ",DischargeDate='"+ Date + "',DP_Remarks='"+ txtRemarks.getText() + "' where ID= " + txtDischargeID.getText() + "";
             pst=con.prepareStatement(sql);
             pst.execute();
             JOptionPane.showMessageDialog(this,"Successfully updated","Record",JOptionPane.INFORMATION_MESSAGE);
@@ -471,7 +528,7 @@ private void Reset()
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PatientDischarge_Room().setVisible(true);
+                new PatientDischarge_Ward().setVisible(true);
             }
         });
     }
@@ -492,24 +549,32 @@ private void Reset()
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
-    public javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane3;
+    public javax.swing.JTextField txtAddress;
     public javax.swing.JFormattedTextField txtAdmitDate;
     public javax.swing.JTextField txtAdmitID;
+    public javax.swing.JTextField txtAge;
     public javax.swing.JTextField txtBloodGroup;
-    public javax.swing.JFormattedTextField txtDischargeDate;
+    public javax.swing.JTextField txtContact;
+    public javax.swing.JTextField txtDD;
+    public javax.swing.JTextField txtDD1;
     public javax.swing.JTextField txtDischargeID;
     public javax.swing.JTextField txtDisease;
     public javax.swing.JTextField txtDoctorID;
     public javax.swing.JTextField txtDoctorName;
+    public javax.swing.JTextField txtEmail;
     public javax.swing.JTextField txtGender;
+    public javax.swing.JTextField txtMM;
+    public javax.swing.JTextField txtMM1;
     public javax.swing.JTextField txtPatientName;
     public javax.swing.JTextArea txtRemarks;
     public javax.swing.JTextField txtWardname;
+    public javax.swing.JTextField txtYYYY;
+    public javax.swing.JTextField txtYYYY1;
     // End of variables declaration//GEN-END:variables
 }

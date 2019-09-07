@@ -19,7 +19,7 @@ PreparedStatement pst=null;
     }
  private void Get_Data(){
          try{
-               String sql="Select ID as 'Discharge ID', AdmitPatient_Ward.AdmitID as 'Admit ID',PatientRegistration.PatientID as 'Patient ID',PatientRegistration.PatientName as 'Patient Name',PatientRegistration.Gen as 'Gender',PatientRegistration.BG as 'Blood Group',Disease,AdmitDate as 'Admit Date',Ward.Wardname as 'Ward Name',Doctor.DoctorID as 'Doctor ID',DoctorName as 'Doctor Name',DischargeDate as 'Discharge Date',DP_Remarks as 'Remarks' from Ward,Doctor,PatientRegistration,AdmitPatient_Ward,DischargePatient_Ward where Ward.Wardname=AdmitPatient_Ward.Wardname and Doctor.DoctorID=AdmitPatient_Ward.DoctorID and PatientRegistration.PatientID=AdmitPatient_Ward.PatientID  and AdmitPatient_Ward.admitID= DischargePatient_Ward.admitID order by Dischargedate";
+               String sql="Select ID as 'Discharge ID', AdmitID as 'Admit ID',PatientID as 'Patient ID',PatientName as 'Patient Name',Gen as 'Gender',BG as 'Blood Group',Disease as 'Disease',AdmitDate as 'Admit Date',WardType as 'Ward Name',Doctor.DoctorID as 'Doctor ID',Doctor.DoctorName as 'Doctor Name',DischargeDate as 'Discharge Date',DP_Remarks as 'Remarks' from Doctor,DischargePatient_Ward where Doctor.DoctorID=dischargepatient_ward.DoctorID order by Dischargedate";
                pst=con.prepareStatement(sql);
          rs= pst.executeQuery();
          jTable1.setModel(DbUtils.resultSetToTableModel(rs));
@@ -84,7 +84,7 @@ PreparedStatement pst=null;
             con=Connect.ConnectDB();
             int row= jTable1.getSelectedRow();
             String table_click= jTable1.getModel().getValueAt(row, 0).toString();
-             String sql="Select * from Ward,Doctor,PatientRegistration,AdmitPatient_Ward,DischargePatient_Ward where Ward.Wardname=AdmitPatient_Ward.Wardname and Doctor.DoctorID=AdmitPatient_Ward.DoctorID and PatientRegistration.PatientID=AdmitPatient_Ward.PatientID and AdmitPatient_Ward.AdmitID=DischargePatient_Ward.admitID and ID=" + table_click + "";   
+             String sql="Select * from Doctor,DischargePatient_Ward where Doctor.DoctorID=dischargepatient_ward.DoctorID and ID=" + table_click + "";   
              pst=con.prepareStatement(sql);
             rs=  pst.executeQuery();
             if(rs.next()){
@@ -112,8 +112,12 @@ PreparedStatement pst=null;
                 int add16 = rs.getInt("AdmitID");
                 String add17= Integer.toString(add16);
                 frm.txtAdmitID.setText(add17);
-                String add18=rs.getString("DischargeDate");
-                frm.txtDischargeDate.setText(add18);
+                String add18=rs.getString("DD");
+                frm.txtDD.setText(add18);
+                String add23=rs.getString("MM");
+                frm.txtMM.setText(add23);
+                String add22=rs.getString("YYYY");
+                frm.txtYYYY.setText(add22);
                 String add19=rs.getString("DP_Remarks");
                  frm.txtRemarks.setText(add19);
                  int add20 = rs.getInt("ID");
@@ -141,7 +145,7 @@ PreparedStatement pst=null;
        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PatientDischargeRecord_Room().setVisible(true);
+                new PatientDischargeRecord_Ward().setVisible(true);
             }
         });
     }

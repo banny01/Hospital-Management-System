@@ -19,10 +19,10 @@ PreparedStatement pst=null;
     }
  private void Get_Data(){
           try{
-              String sql="Select AdmitID as 'Admit ID',PatientRegistration.PatientID as 'Patient ID',PatientRegistration.PatientName as 'Patient Name',PatientRegistration.Gen as 'Gender',PatientRegistration.BG as 'Blood Group',Disease,AdmitDate as 'Admit Date',Ward.Wardname as 'Ward Name',Doctor.DoctorID as 'Doctor ID',DoctorName as 'Doctor Name',AdmitPatient_Ward.AP_Remarks as 'Remarks' from Ward,Doctor,PatientRegistration,AdmitPatient_Ward where Ward.Wardname=AdmitPatient_Ward.Wardname and Doctor.DoctorID=AdmitPatient_Ward.DoctorID and PatientRegistration.PatientID=AdmitPatient_Ward.PatientID order by admitdate";
+              String sql="Select AdmitID as 'Admit ID',PatientRegistration.PatientID as 'Patient ID',PatientRegistration.PatientName as 'Patient Name',PatientRegistration.Gen as 'Gender',PatientRegistration.BG as 'Blood Group',Disease,AdmitDate as 'Admit Date',room.WardType as 'Ward Name', No as 'Ward No',Doctor.DoctorID as 'Doctor ID',DoctorName as 'Doctor Name',AdmitPatient_Ward.AP_Remarks as 'Remarks' from room,Doctor,PatientRegistration,AdmitPatient_Ward where room.WardType=AdmitPatient_Ward.WardType and Doctor.DoctorID=AdmitPatient_Ward.DoctorID and PatientRegistration.PatientID=AdmitPatient_Ward.PatientID order by admitdate";
               pst=con.prepareStatement(sql);
-          rs= pst.executeQuery();
-         jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+              rs= pst.executeQuery();
+              jTable1.setModel(DbUtils.resultSetToTableModel(rs));
          }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
           
@@ -84,7 +84,7 @@ PreparedStatement pst=null;
             con=Connect.ConnectDB();
             int row= jTable1.getSelectedRow();
             String table_click= jTable1.getModel().getValueAt(row, 0).toString();
-             String sql="Select * from Ward,Doctor,PatientRegistration,AdmitPatient_Ward where Ward.Wardname=AdmitPatient_Ward.Wardname and Doctor.DoctorID=AdmitPatient_Ward.DoctorID and PatientRegistration.PatientID=AdmitPatient_Ward.PatientID and AdmitID=" + table_click + "";   
+             String sql="Select * from room,Doctor,PatientRegistration,AdmitPatient_Ward where room.WardType=AdmitPatient_Ward.WardType and Doctor.DoctorID=AdmitPatient_Ward.DoctorID and PatientRegistration.PatientID=AdmitPatient_Ward.PatientID and AdmitID=" + table_click + "";   
             pst=con.prepareStatement(sql);
             rs=  pst.executeQuery();
             if(rs.next()){
@@ -105,9 +105,13 @@ PreparedStatement pst=null;
                 frm.txtBloodGroup.setText(add7);
                 String add9=rs.getString("Disease");
                 frm.txtDisease.setText(add9);
-                String add11=rs.getString("AdmitDate");
-                frm.txtAdmitDate.setText(add11);
-                String add14=rs.getString("Wardname");
+                String add11=rs.getString("DD");
+                frm.txtDD.setText(add11);
+                String add19=rs.getString("MM");
+                frm.txtMM.setText(add19);
+                String add18=rs.getString("YYYY");
+                frm.txtYYYY.setText(add18);
+                String add14=rs.getString("WardType");
                 frm.cmbWardName1.setSelectedItem(add14);
                 frm.cmbWardName.setSelectedItem(add14);
                 String add15=rs.getString("AP_Remarks");
@@ -137,7 +141,7 @@ PreparedStatement pst=null;
        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PatientAdmit_RoomRecord().setVisible(true);
+                new PatientAdmit_WardRecord().setVisible(true);
             }
         });
     }
